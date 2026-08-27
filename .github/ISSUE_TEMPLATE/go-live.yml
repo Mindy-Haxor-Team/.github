@@ -1,0 +1,84 @@
+name: 🚀 Pasar a producción
+description: Checklist antes de que este proyecto quede disponible en su dominio público.
+title: "[go-live]: pasar a producción"
+labels: ["go-live"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Abre este issue **antes** de publicar el proyecto en su dominio de
+        `.lorenalorena.com`. Ve marcando cada casilla a medida que la cumples.
+        No cierres el issue hasta que estén todas.
+
+        En estos proyectos, mergear a `main` ya despliega a producción en Vercel.
+        Publicar significa además conectar el dominio y abrir el acceso, y eso es
+        lo que este checklist cubre.
+
+  - type: input
+    id: proyecto
+    attributes:
+      label: Proyecto
+      description: Nombre del repositorio y del proyecto en Vercel.
+      placeholder: mindy-eerr / eerr-dashboard
+    validations:
+      required: true
+
+  - type: input
+    id: dominio
+    attributes:
+      label: Dominio que va a usar
+      placeholder: eerr.lorenalorena.com
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: codigo
+    attributes:
+      label: Código
+      options:
+        - label: El CI está verde en `main` (seguridad y tests)
+        - label: Hay al menos un smoke test que verifica que la app arranca y la ruta principal responde
+        - label: Cada bug conocido que se arregló tiene un test que lo cubre
+        - label: No hay `.env`, llaves ni datos reales en el repositorio
+        - label: El `CHANGELOG.md` refleja lo que va en esta primera versión
+
+  - type: checkboxes
+    id: dominio-acceso
+    attributes:
+      label: Dominio y acceso
+      description: >
+        La protección de Vercel (SSO) cubre los previews pero NO el dominio
+        propio: en el dominio de producción hay que poner el control de acceso
+        aparte, en Cloudflare.
+      options:
+        - label: El subdominio `.lorenalorena.com` está creado y apunta al proyecto
+        - label: El dominio resuelve por HTTPS con certificado válido
+        - label: Hay una capa de acceso en Cloudflare Access sobre el dominio (login aparte del usuario/clave de la plataforma), o se decidió explícitamente que este proyecto es público y quedó anotado abajo
+        - label: Se probó entrar desde una sesión sin autenticar y el acceso se comporta como se espera (bloquea si es privado, entra si es público)
+
+  - type: checkboxes
+    id: datos-config
+    attributes:
+      label: Datos y configuración
+      options:
+        - label: Las variables de entorno de producción están cargadas en Vercel (no apuntando a la base de desarrollo)
+        - label: Supabase de producción tiene RLS activo en todas las tablas con datos de usuarios
+        - label: Se probó con dos usuarios distintos que uno no ve los datos del otro
+        - label: Las migraciones de Supabase están aplicadas en la base de producción
+
+  - type: checkboxes
+    id: observabilidad
+    attributes:
+      label: Después de publicar
+      options:
+        - label: Revisé los logs de Vercel del primer deploy de producción y no hay errores
+        - label: Revisé los logs de Supabase y no hay consultas fallando ni permisos denegados inesperados
+        - label: Hice el flujo principal de punta a punta en el dominio real, ya publicado
+
+  - type: textarea
+    id: notas
+    attributes:
+      label: Notas
+      description: Decisiones tomadas (por ejemplo "este proyecto es público a propósito"), o pendientes que quedan para después.
+    validations:
+      required: false
