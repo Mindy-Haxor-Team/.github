@@ -70,6 +70,38 @@ Lo que sí conviene tener, y es poco:
 Si le pides tests a un agente, revisa que realmente verifiquen algo. Un test que
 no comprueba nada es peor que no tener test: se ve verde y da confianza falsa.
 
+## Gestor de paquetes
+
+**pnpm es el estándar.** Los proyectos nuevos arrancan con pnpm.
+
+**npm queda como legacy**: si el repositorio ya tiene `package-lock.json` y
+funciona, se queda así. Lo que no se hace es empezar algo nuevo con npm.
+
+**yarn no se usa.** Si llega un repositorio de afuera que lo usa, se migra antes
+de integrarlo: `rm yarn.lock && pnpm import && pnpm install`.
+
+### Un solo lockfile por repositorio
+
+Nunca dos al mismo tiempo. Es el error que más cuesta ver porque no rompe nada
+de inmediato: el CI elige uno, instala versiones distintas a las que tienes en tu
+máquina, y la diferencia aparece semanas después como un bug que no le pasa a
+nadie más. Ya pasó en un repositorio de la compañía.
+
+Si migras de npm a pnpm, borra el `package-lock.json` en el mismo commit:
+
+```bash
+rm package-lock.json && pnpm import && pnpm install
+```
+
+`pnpm import` lee el lockfile viejo primero, así que no pierdes las versiones que
+ya tenías.
+
+### Por qué
+
+Cuando sale una vulnerabilidad hay que fijar la versión de una dependencia, y esa
+fijación se escribe distinto en cada gestor. Con uno solo hay un solo lugar donde
+buscar en todos los repositorios. Con tres, nadie encuentra nada.
+
 ## Documentación
 
 Toda la documentación del proyecto vive en el directorio `docs/` de la raíz del
