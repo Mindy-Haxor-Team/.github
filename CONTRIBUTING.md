@@ -146,6 +146,20 @@ Instala el hook que revisa esto antes de cada commit, una vez por proyecto:
 git config core.hooksPath .githooks
 ```
 
+## Proyectos en Vercel
+
+Un proyecto de Vercel nace de un repositorio de esta organización creado con
+[`mindy-haxor-template`](https://github.com/Mindy-Haxor-Team/mindy-haxor-template)
+y se conecta por la integración de GitHub. **Nunca `vercel deploy` desde una
+carpeta sin repositorio**: el código queda solo en la máquina de quien hizo el
+deploy, y nadie más puede arreglarlo después.
+
+Desde el CLI, siempre con `--scope <team>` explícito. Una cuenta puede estar en
+varios teams y sin `--scope` el proyecto cae donde no corresponde.
+
+El `vercel.json` del template trae los headers de seguridad base. No se quita al
+arrancar; si un permiso hace falta, se ajusta esa línea y se explica en el PR.
+
 ## Trabajar con agentes
 
 Cada repositorio tiene un `AGENTS.md` en la raíz con el contexto del proyecto.
