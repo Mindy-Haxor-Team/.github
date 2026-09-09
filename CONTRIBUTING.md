@@ -102,6 +102,25 @@ Cuando sale una vulnerabilidad hay que fijar la versión de una dependencia, y e
 fijación se escribe distinto en cada gestor. Con uno solo hay un solo lugar donde
 buscar en todos los repositorios. Con tres, nadie encuentra nada.
 
+## Tratamiento de datos personales
+
+Cada repositorio lleva un `docs/tratamiento-de-datos.md` que dice qué datos de
+personas toca ese proyecto, para qué, quién más los ve, si salen del país,
+cuánto se guardan y cómo se protegen. Lo pide la **Ley 21.719**, que rige desde
+diciembre de 2026.
+
+Solo lo puede llenar quien conoce el proyecto: dónde está alojada la base o qué
+servicio externo recibe los datos no se adivina desde afuera.
+
+**Si tu cambio agrega un dato de una persona, un servicio externo nuevo o una
+integración, actualizas ese archivo en el mismo pull request.** Si el proyecto
+no trata datos de personas, lo escribes ahí en una línea. Declararlo vale;
+dejarlo en blanco, no.
+
+Presta atención a dos cosas: si los datos salen de Chile —con Vercel y Supabase
+casi siempre salen, aunque nadie lo haya decidido— y si hay datos de salud o de
+niños, que tienen reglas más estrictas.
+
 ## Documentación
 
 Toda la documentación del proyecto vive en el directorio `docs/` de la raíz del
